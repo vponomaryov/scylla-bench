@@ -11,5 +11,4 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 )
 
-// replace github.com/gocql/gocql => github.com/scylladb/gocql v1.7.1
-replace github.com/gocql/gocql => github.com/vponomaryov/gocql v1.7.1-fix-retries-v4
+replace github.com/gocql/gocql => github.com/scylladb/gocql v1.7.1

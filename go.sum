@@ -39,14 +39,6 @@ github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+
 github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
-github.com/vponomaryov/gocql v1.7.1-fix-retries h1:VqIuA9KGl+Y10XzVeJd0VTjR+PKnL47l5EPdlzcbICA=
-github.com/vponomaryov/gocql v1.7.1-fix-retries/go.mod h1:TA7opQwU+6t8LmGZr/oyudP4QhVj3ucqbtZ73Xu4ghY=
-github.com/vponomaryov/gocql v1.7.1-fix-retries-v2 h1:WMZzHPFrGeGm5Sm6JXTwhZOJ0y+w96Gkf81W4R7X/hQ=
-github.com/vponomaryov/gocql v1.7.1-fix-retries-v2/go.mod h1:TA7opQwU+6t8LmGZr/oyudP4QhVj3ucqbtZ73Xu4ghY=
-github.com/vponomaryov/gocql v1.7.1-fix-retries-v3 h1:YX5EBuYvZbiB66tfoZrWMXMuGZat/OxPopRGiIu21Xk=
-github.com/vponomaryov/gocql v1.7.1-fix-retries-v3/go.mod h1:TA7opQwU+6t8LmGZr/oyudP4QhVj3ucqbtZ73Xu4ghY=
-github.com/vponomaryov/gocql v1.7.1-fix-retries-v4 h1:E87sSUlgYphOJyaPiNfOzFpbcoWizuGvw7rHlg275ps=
-github.com/vponomaryov/gocql v1.7.1-fix-retries-v4/go.mod h1:TA7opQwU+6t8LmGZr/oyudP4QhVj3ucqbtZ73Xu4ghY=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190510104115-cbcb75029529/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/exp v0.0.0-20180321215751-8460e604b9de/go.mod h1:CJ0aWSM057203Lf6IL+f9T1iT9GByDxfZKAQTCR3kQA=
