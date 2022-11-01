@@ -66,6 +66,7 @@ var (
 	mode           string
 	latencyType    string
 	maxErrorsAtRow int
+	maxErrors      int
 	concurrency    int
 	maximumRate    int
 
@@ -325,6 +326,11 @@ func main() {
 
 	flag.StringVar(&hostSelectionPolicy, "host-selection-policy", "token-aware", "set the driver host selection policy (round-robin,token-aware,dc-aware),default 'token-aware'")
 	flag.IntVar(&maxErrorsAtRow, "error-at-row-limit", 0, "set limit of errors caught by one thread at row after which workflow will be terminated and error reported. Set it to 0 if you want to haven no limit")
+	flag.IntVar(
+		&maxErrors,
+		"error-limit", 0,
+		"Number of errors in summary to appear before stopping the execution of a workflow. "+
+			"If it is set to '0' then no limit for number of errors is applied.")
 
 	flag.Parse()
 	counterTableName = "test_counters"
@@ -555,6 +561,16 @@ func main() {
 	fmt.Println("Mode:\t\t\t", mode)
 	fmt.Println("Workload:\t\t", workload)
 	fmt.Println("Timeout:\t\t", timeout)
+	if maxErrorsAtRow == 0 {
+		fmt.Println("Max error number at row: unlimited")
+	} else {
+		fmt.Println("Max error number at row:", maxErrorsAtRow)
+	}
+	if maxErrors == 0 {
+		fmt.Println("Max error number:\t unlimited")
+	} else {
+		fmt.Println("Max error number:\t", maxErrors)
+	}
 	fmt.Println("Retries:\t\t")
 	fmt.Println("  number:\t\t", retryPolicy.NumRetries)
 	fmt.Println("  min interval:\t\t", retryPolicy.Min)

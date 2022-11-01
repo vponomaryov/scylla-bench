@@ -114,7 +114,7 @@ func RunTest(threadResult *results.TestThreadResult, workload WorkloadGenerator,
 	start := time.Now()
 	partialStart := start
 	iter := NewTestIterator(workload)
-	errorsAtRow := 0
+	totalErrors, errorsAtRow := 0, 0
 	for !iter.IsDone() {
 		rateLimiter.Wait()
 
@@ -127,6 +127,7 @@ func RunTest(threadResult *results.TestThreadResult, workload WorkloadGenerator,
 		endTime := time.Now()
 		if err != nil {
 			errorsAtRow += 1
+			totalErrors += 1
 			threadResult.IncErrors()
 			log.Print(err)
 			if rawLatency > errorToTimeoutCutoffTime {
@@ -143,6 +144,11 @@ func RunTest(threadResult *results.TestThreadResult, workload WorkloadGenerator,
 		now := time.Now()
 		if maxErrorsAtRow > 0 && errorsAtRow >= maxErrorsAtRow {
 			threadResult.SubmitCriticalError(errors.New(fmt.Sprintf("Error limit (maxErrorsAtRow) of %d errors is reached", errorsAtRow)))
+		}
+		if maxErrors > 0 && totalErrors >= maxErrors {
+			threadResult.SubmitCriticalError(
+				errors.New(
+					fmt.Sprintf("Error limit (maxErrors) of %d errors is reached", errorsAtRow)))
 		}
 		if results.GlobalErrorFlag {
 			threadResult.ResultChannel <- *threadResult.PartialResult
