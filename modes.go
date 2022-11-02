@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 
@@ -114,7 +115,11 @@ func RunTest(threadResult *results.TestThreadResult, workload WorkloadGenerator,
 	start := time.Now()
 	partialStart := start
 	iter := NewTestIterator(workload)
+
+	var errorsAtRowMutex, totalErrorsMutex sync.Mutex
 	totalErrors, errorsAtRow := 0, 0
+	errorsAtRowMsgPrinted, totalErrorsMsgPrinted := false, false
+
 	for !iter.IsDone() {
 		rateLimiter.Wait()
 
@@ -143,12 +148,24 @@ func RunTest(threadResult *results.TestThreadResult, workload WorkloadGenerator,
 
 		now := time.Now()
 		if maxErrorsAtRow > 0 && errorsAtRow >= maxErrorsAtRow {
-			threadResult.SubmitCriticalError(errors.New(fmt.Sprintf("Error limit (maxErrorsAtRow) of %d errors is reached", errorsAtRow)))
+			errorsAtRowMutex.Lock()
+			if !errorsAtRowMsgPrinted {
+				// NOTE: avoid multiple duplication of error messages
+				threadResult.SubmitCriticalError(errors.New(fmt.Sprintf(
+					"Error limit (maxErrorsAtRow) of %d errors is reached", errorsAtRow)))
+				errorsAtRowMsgPrinted = true
+			}
+			errorsAtRowMutex.Unlock()
 		}
 		if maxErrors > 0 && totalErrors >= maxErrors {
-			threadResult.SubmitCriticalError(
-				errors.New(
-					fmt.Sprintf("Error limit (maxErrors) of %d errors is reached", errorsAtRow)))
+			totalErrorsMutex.Lock()
+			if !totalErrorsMsgPrinted {
+				// NOTE: avoid multiple duplication of error messages
+				threadResult.SubmitCriticalError(errors.New(fmt.Sprintf(
+					"Error limit (maxErrors) of %d errors is reached", totalErrors)))
+				totalErrorsMsgPrinted = true
+			}
+			totalErrorsMutex.Unlock()
 		}
 		if results.GlobalErrorFlag {
 			threadResult.ResultChannel <- *threadResult.PartialResult
