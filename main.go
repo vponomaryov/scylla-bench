@@ -443,6 +443,7 @@ func main() {
 
 	retryPolicy = getRetryPolicy()
 	cluster.RetryPolicy = retryPolicy
+	cluster.DefaultIdempotence = true
 	cluster.NumConns = connectionCount
 	cluster.PageSize = pageSize
 	cluster.Timeout = timeout
